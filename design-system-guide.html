@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flowpilot Aviation Design System & Style Reference Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,600&family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* -------------------------------------------------------------
+       1. CANVAS & RATIO SPECIFICATION
+       ------------------------------------------------------------- */
+    --canvas-w: 1080px;
+    --canvas-h: 1350px;
+    --canvas-ratio: 4 / 5;
+
+    /* -------------------------------------------------------------
+       2. COLOR PALETTE SPECIFICATION
+       ------------------------------------------------------------- */
+    /* Primary & Flight Orange */
+    --fp-orange: #FF5722;          /* rgb(255, 87, 34) - Brand primary, buttons, airplane icons */
+    --fp-orange-deep: #E64A19;     /* rgb(230, 74, 25) - Gradients, active borders */
+    --fp-orange-light: #FF8A65;    /* rgb(255, 138, 101) - Highlights, sub-labels */
+    --fp-orange-tint: #FFF0EB;     /* rgb(255, 240, 235) - Soft badge fills */
+    --fp-terracotta: #D85A30;       /* rgb(216, 90, 48) - Editorial serif italic accent headlines */
+
+    /* Midnight Flight Deck Navy (Dark Surfaces & Text) */
+    --fp-navy-dark: #0D1B2A;       /* rgb(13, 27, 42) - Primary headlines, ATC pills, heavy ink */
+    --fp-navy-board: #0E1A2D;      /* rgb(14, 26, 45) - Solari split-flap departure board chassis */
+    --fp-navy-tile: #152438;       /* rgb(21, 36, 56) - Individual mechanical flap tiles */
+    --fp-navy-muted: #243447;      /* rgb(36, 52, 71) - Secondary dark borders */
+    --fp-slate-text: #5A6A7E;      /* rgb(90, 106, 126) - Subheadings, metadata labels */
+    --fp-slate-light: #8C99A8;     /* rgb(140, 153, 168) - Monospace captions, ticks */
+
+    /* Canvas Background Gradients (Takeoff vs Turbulence) */
+    --fp-bg-warm-start: #F9E2CF;   /* Top warm sunset tone (Slides 03, 04, 05, 06) */
+    --fp-bg-warm-mid: #F5BE94;     /* Mid gradient stop */
+    --fp-bg-warm-end: #EE9C64;     /* Bottom terracotta glow */
+    --fp-bg-cool-start: #E5E9F0;   /* Top stormy fog grey (Slide 01 Hook) */
+    --fp-bg-cool-end: #CCD4E0;     /* Bottom turbulence blue-grey */
+
+    /* Surfaces & Paper Sheets */
+    --fp-paper-cream: #FFFDF9;     /* rgb(255, 253, 249) - Boarding pass card, metric tiles */
+    --fp-paper-border: #ECE7DE;    /* rgb(236, 231, 222) - Ticket perforations, internal dividers */
+    --fp-mac-window: #F8F9FA;      /* rgb(248, 249, 250) - App mockup background */
+
+    /* Alert & Turbulence Crimson (Slide 01 Hook) */
+    --fp-alert-crimson: #E11D48;   /* rgb(225, 29, 72) - "flying manual." text, unread badges */
+    --fp-alert-pink: #FB7185;      /* rgb(251, 113, 133) - Badge borders, highlights */
+    --fp-alert-bg: #FFE4E6;        /* rgb(255, 228, 230) - Alert background pill */
+
+    /* App Satellite Ecosystem Colors */
+    --fp-app-mail: #2563EB;        /* Blue */
+    --fp-app-chat: #7C3AED;        /* Purple */
+    --fp-app-cal: #EF4444;         /* Red */
+    --fp-app-sheets: #10B981;      /* Green */
+    --fp-app-crm: #F59E0B;         /* Amber */
+    --fp-app-docs: #06B6D4;        /* Cyan */
+
+    /* -------------------------------------------------------------
+       3. TYPOGRAPHY FAMILIES & SCALES
+       ------------------------------------------------------------- */
+    --font-headline: 'Fraunces', 'Clash Display', Georgia, serif;
+    --font-editorial-italic: 'Instrument Serif', 'Newsreader', Garamond, serif;
+    --font-sans-ui: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono-aviation: 'Space Mono', 'IBM Plex Mono', 'JetBrains Mono', monospace;
+    --font-code: 'Fira Code', monospace;
+
+    /* Shadows & Elevations */
+    --shadow-soft-card: 0 16px 36px -4px rgba(13, 27, 42, 0.08), 0 4px 12px rgba(13, 27, 42, 0.04);
+    --shadow-floating: 0 24px 52px -8px rgba(13, 27, 42, 0.18), 0 8px 18px rgba(13, 27, 42, 0.06);
+    --shadow-orange-glow: 0 16px 32px -4px rgba(255, 87, 34, 0.4);
+    --shadow-chassis-inset: inset 0 2px 6px rgba(0, 0, 0, 0.6), 0 16px 36px rgba(13, 27, 42, 0.25);
+
+    /* Radii */
+    --radius-xs: 4px;
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 22px;
+    --radius-xl: 32px;
+    --radius-pill: 9999px;
+  }
+
+  /* Reset & Page Wrapper */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background-color: #0B0E14;
+    color: #E2E8F0;
+    font-family: var(--font-sans-ui);
+    line-height: 1.6;
+    padding: 40px 24px;
+    -webkit-font-smoothing: antialiased;
+  }
+  .guide-wrapper {
+    max-width: 1320px;
+    margin: 0 auto;
+  }
+
+  /* Header Hero */
+  .guide-hero {
+    background: linear-gradient(135deg, #151D2A 0%, #0F141E 100%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-xl);
+    padding: 50px 48px;
+    margin-bottom: 40px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+  }
+  .guide-hero::after {
+    content: '';
+    position: absolute;
+    top: -80px;
+    right: -80px;
+    width: 480px;
+    height: 480px;
+    background: radial-gradient(circle, rgba(255, 87, 34, 0.22) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 87, 34, 0.15);
+    border: 1px solid rgba(255, 87, 34, 0.35);
+    color: var(--fp-orange-light);
+    font-family: var(--font-mono-aviation);
+    font-size: 11.5px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: var(--radius-pill);
+    margin-bottom: 20px;
+  }
+  .hero-title {
+    font-family: var(--font-headline);
+    font-size: 44px;
+    font-weight: 900;
+    line-height: 1.15;
+    color: #FFFFFF;
+    margin-bottom: 12px;
+  }
+  .hero-title span {
+    font-family: var(--font-editorial-italic);
+    font-style: italic;
+    color: var(--fp-orange);
+    font-weight: 400;
+  }
+  .hero-desc {
+    color: #94A3B8;
+    font-size: 16px;
+    max-width: 820px;
+  }
+
+  /* Section Styling */
+  .section-card {
+    background: #121824;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: var(--radius-xl);
+    padding: 44px 40px;
+    margin-bottom: 40px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
+  }
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+  }
+  .section-title {
+    font-size: 24px;
+    font-weight: 800;
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .section-badge {
+    background: #09121E;
+    border: 1px solid rgba(255, 87, 34, 0.4);
+    color: var(--fp-orange-light);
+    font-family: var(--font-mono-aviation);
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: var(--radius-sm);
+  }
+  .section-intro {
+    color: #94A3B8;
+    font-size: 14.5px;
+    margin-top: -16px;
+    margin-bottom: 32px;
+  }
+
+  /* Grid Layouts */
+  .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(460px, 1fr)); gap: 28px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; }
+
+  /* -------------------------------------------------------------
+     SWATCH CARDS
+     ------------------------------------------------------------- */
+  .swatch-item {
+    background: #182232;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+  .swatch-color {
+    height: 100px;
+    width: 100%;
+    position: relative;
+    padding: 10px;
+    display: flex;
+    justify-content: flex-end;
+  }
+  .swatch-tag {
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(4px);
+    color: #FFF;
+    font-family: var(--font-mono-aviation);
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: var(--radius-pill);
+    height: fit-content;
+  }
+  .swatch-details {
+    padding: 16px;
+  }
+  .swatch-name {
+    font-weight: 700;
+    font-size: 15px;
+    color: #FFF;
+    margin-bottom: 4px;
+  }
+  .swatch-hex {
+    font-family: var(--font-code);
+    font-size: 13px;
+    color: var(--fp-orange-light);
+    margin-bottom: 6px;
+  }
+  .swatch-desc {
+    font-size: 12px;
+    color: #94A3B8;
+    line-height: 1.4;
+  }
+
+  /* -------------------------------------------------------------
+     TYPOGRAPHY SPECIMENS
+     ------------------------------------------------------------- */
+  .type-card {
+    background: #17202E;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    margin-bottom: 24px;
+  }
+  .type-canvas {
+    background: linear-gradient(135deg, #F8DFC8 0%, #F5BA8F 100%);
+    border-radius: var(--radius-md);
+    padding: 36px 40px;
+    margin-bottom: 20px;
+    color: var(--fp-navy-dark);
+  }
+  .type-canvas.cool {
+    background: linear-gradient(135deg, #E6EAEF 0%, #CFD7E2 100%);
+  }
+  .h-line-main {
+    font-family: var(--font-headline);
+    font-size: 56px;
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: var(--fp-navy-dark);
+  }
+  .h-line-italic {
+    font-family: var(--font-editorial-italic);
+    font-size: 66px;
+    font-weight: 400;
+    font-style: italic;
+    line-height: 0.95;
+    color: var(--fp-terracotta);
+    display: block;
+  }
+  .h-line-crimson {
+    color: var(--fp-alert-crimson);
+  }
+  .h-subtext {
+    font-family: var(--font-sans-ui);
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--fp-slate-text);
+    margin-top: 14px;
+  }
+
+  /* Code Syntax Blocks */
+  .code-spec {
+    background: #0B0E14;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-md);
+    padding: 18px 22px;
+    font-family: var(--font-code);
+    font-size: 13px;
+    color: #A5B4FC;
+    line-height: 1.6;
+    overflow-x: auto;
+  }
+  .c-prop { color: #38BDF8; }
+  .c-val { color: #F472B6; }
+  .c-cmt { color: #64748B; font-style: italic; }
+
+  /* -------------------------------------------------------------
+     LIVE COMPONENT PREVIEWS
+     ------------------------------------------------------------- */
+  .preview-stage {
+    background: linear-gradient(160deg, #F9E2CF 0%, #EE9C64 100%);
+    border-radius: var(--radius-lg);
+    padding: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .preview-stage.cool {
+    background: linear-gradient(160deg, #E5E9F0 0%, #CCD4E0 100%);
+  }
+
+  /* 1. Boarding Pass Component */
+  .card-boarding-pass {
+    width: 100%;
+    max-width: 470px;
+    background: var(--fp-paper-cream);
+    border-radius: 26px;
+    border: 1px solid rgba(13, 27, 42, 0.08);
+    box-shadow: var(--shadow-floating);
+    display: grid;
+    grid-template-columns: 1fr 136px;
+    position: relative;
+    overflow: hidden;
+  }
+  .bp-body {
+    padding: 26px 20px 24px 26px;
+  }
+  .bp-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  .bp-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 800;
+    font-size: 14px;
+    color: var(--fp-navy-dark);
+  }
+  .bp-title-tag {
+    font-family: var(--font-mono-aviation);
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    color: var(--fp-slate-light);
+  }
+  .bp-route {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 22px;
+  }
+  .bp-code {
+    font-family: var(--font-headline);
+    font-size: 40px;
+    font-weight: 900;
+    color: var(--fp-navy-dark);
+    line-height: 1;
+  }
+  .bp-sublabel {
+    font-family: var(--font-mono-aviation);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    color: var(--fp-slate-light);
+    margin-top: 4px;
+  }
+  .bp-flightline {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 12px;
+  }
+  .bp-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px 8px;
+    border-top: 1px solid var(--fp-paper-border);
+    padding-top: 16px;
+  }
+  .bp-cell .key {
+    font-family: var(--font-mono-aviation);
+    font-size: 8px;
+    color: var(--fp-slate-light);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .bp-cell .val {
+    font-size: 11.5px;
+    font-weight: 700;
+    color: var(--fp-navy-dark);
+    margin-top: 2px;
+  }
+  .bp-stub {
+    background: var(--fp-paper-cream);
+    border-left: 2px dashed #E2DACD;
+    padding: 22px 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    text-align: center;
+    position: relative;
+  }
+  /* Notches */
+  .bp-stub::before, .bp-stub::after {
+    content: '';
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    background: #F3AF7C;
+    border-radius: 50%;
+    left: -12px;
+  }
+  .bp-stub::before { top: -12px; }
+  .bp-stub::after { bottom: -12px; }
+  .bp-stub-cta {
+    font-family: var(--font-headline);
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--fp-orange);
+    line-height: 1.05;
+    margin-top: 10px;
+  }
+  .bp-barcode {
+    width: 80px;
+    height: 40px;
+    background: repeating-linear-gradient(
+      90deg,
+      #0D1B2A 0px, #0D1B2A 2px,
+      transparent 2px, transparent 4px,
+      #0D1B2A 4px, #0D1B2A 6px,
+      transparent 6px, transparent 8px,
+      #0D1B2A 8px, #0D1B2A 11px
+    );
+  }
+
+  /* 2. Solari Split-Flap Board */
+  .card-solari {
+    width: 100%;
+    max-width: 520px;
+    background: var(--fp-navy-board);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 22px;
+    box-shadow: var(--shadow-chassis-inset);
+    padding: 18px 22px;
+    color: #FFFFFF;
+    font-family: var(--font-mono-aviation);
+  }
+  .solari-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding-bottom: 12px;
+    margin-bottom: 14px;
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+  }
+  .solari-line {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  .flap-box {
+    background: var(--fp-navy-tile);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 4px;
+    padding: 6px 10px;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    position: relative;
+    box-shadow: inset 0 1px 1px rgba(255,255,255,0.15), 0 2px 4px rgba(0,0,0,0.5);
+  }
+  .flap-box::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: rgba(0, 0, 0, 0.7);
+  }
+  .flap-done { color: #FFA726; }
+
+  /* 3. Floating Pill CTA */
+  .pill-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 20px;
+    background: var(--fp-navy-dark);
+    padding: 8px 10px 8px 24px;
+    border-radius: var(--radius-pill);
+    box-shadow: var(--shadow-floating);
+  }
+  .pill-cta-text-bold {
+    font-size: 16px;
+    font-weight: 700;
+    color: #FFFFFF;
+  }
+  .pill-cta-text-sub {
+    font-size: 14px;
+    color: #8C99A8;
+  }
+  .pill-arrow-disc {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--fp-orange);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #FFFFFF;
+    font-size: 17px;
+  }
+
+  /* 4. ATC Eyebrow Badges */
+  .atc-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--fp-navy-dark);
+    color: #FFFFFF;
+    font-family: var(--font-mono-aviation);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: var(--radius-pill);
+    box-shadow: 0 4px 12px rgba(13, 27, 42, 0.25);
+  }
+
+  /* -------------------------------------------------------------
+     CHARTS & TELEMETRY
+     ------------------------------------------------------------- */
+  .card-metric {
+    background: var(--fp-paper-cream);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    box-shadow: var(--shadow-soft-card);
+    border: 1px solid rgba(13, 27, 42, 0.06);
+    color: var(--fp-navy-dark);
+  }
+  .metric-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--fp-slate-text);
+    margin-bottom: 12px;
+  }
+  .metric-big-num {
+    font-family: var(--font-headline);
+    font-size: 36px;
+    font-weight: 900;
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+  .bars-container {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    height: 64px;
+    padding-top: 10px;
+  }
+  .bar-col {
+    flex: 1;
+    background: #E2E8F0;
+    border-radius: 4px;
+  }
+  .bar-col.active {
+    background: var(--fp-orange);
+    box-shadow: 0 4px 12px rgba(255, 87, 34, 0.4);
+  }
+
+  /* Curve SVG */
+  .curve-chart {
+    width: 100%;
+    height: 70px;
+  }
+
+  /* Stat Counter Row */
+  .stat-ribbon {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    padding: 18px 0 0 0;
+    border-top: 1px solid #ECE7DE;
+    margin-top: 16px;
+  }
+  .stat-val {
+    font-family: var(--font-headline);
+    font-size: 26px;
+    font-weight: 900;
+    color: var(--fp-navy-dark);
+    line-height: 1.1;
+  }
+  .stat-lbl {
+    font-size: 11px;
+    color: var(--fp-slate-text);
+  }
+
+  /* Runway Track */
+  .runway-wrapper {
+    background: #FAF6F0;
+    border: 1px solid rgba(13, 27, 42, 0.1);
+    border-radius: var(--radius-md);
+    padding: 16px 20px;
+    font-family: var(--font-mono-aviation);
+    font-size: 10.5px;
+    color: var(--fp-slate-text);
+  }
+  .runway-meta {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+  .runway-axis {
+    width: 100%;
+    height: 2px;
+    background: #C8BAAA;
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  .runway-jet {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-left: 8px solid var(--fp-navy-dark);
+    transform: translateX(-50%);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+    .card-boarding-pass { grid-template-columns: 1fr; }
+    .bp-stub { border-left: none; border-top: 2px dashed #E2DACD; }
+    .h-line-main { font-size: 38px; }
+    .h-line-italic { font-size: 46px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="guide-wrapper">
+
+  <!-- =============================================================
+       HERO
+       ============================================================= -->
+  <header class="guide-hero">
+    <div class="hero-tag">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 22l10-4 10 4L12 2z"/></svg>
+      Aviation UI Architecture · Master Reference System
+    </div>
+    <h1 class="hero-title">
+      Flowpilot Carousel <span>Design Style Blueprint</span>
+    </h1>
+    <p class="hero-desc">
+      Exact reverse-engineered design system from the 5-slide Flowpilot SaaS carousel case study. Complete CSS tokens, color palettes, typography formulas, layout coordinates for 1080×1350px (4:5), and blueprints for all signature components.
+    </p>
+  </header>
+
+  <!-- =============================================================
+       SECTION 1: COLOR PALETTE
+       ============================================================= -->
+  <section class="section-card">
+    <div class="section-header">
+      <div class="section-title">
+        <span class="section-badge">01</span>
+        Color Palette & Material Tokens
+      </div>
+    </div>
+    <p class="section-intro">
+      Dual atmospheric themes: Warm Takeoff Sunset (Slides 03–06) vs. Overcast Fog Turbulence (Slide 01 Hook), tied together with Flight Deck Navy and Coral Orange.
+    </p>
+
+    <div class="grid-4">
+      <div class="swatch-item">
+        <div class="swatch-color" style="background: #FF5722;">
+          <span class="swatch-tag">Primary Accent</span>
+        </div>
+        <div class="swatch-details">
+          <div class="swatch-name">Flight Orange</div>
+          <div class="swatch-hex">#FF5722 · rgb(255, 87, 34)</div>
+          <div class="swatch-desc">Main CTA buttons, logo plane, radar glow, highlight bars.</div>
+        </div>
+      </div>
+
+      <div class="swatch-item">
+        <div class="swatch-color" style="background: #D85A30;">
+          <span class="swatch-tag">Headline Accent</span>
+        </div>
+        <div class="swatch-details">
+          <div class="swatch-name">Terracotta Rust</div>
+          <div class="swatch-hex">#D85A30 · rgb(216, 90, 48)</div>
+          <div class="swatch-desc">Second-line editorial script headlines ("Every week.", "on autopilot.").</div>
+        </div>
+      </div>
+
+      <div class="swatch-item">
+        <div class="swatch-color" style="background: #0D1B2A;">
+          <span class="swatch-tag">Heavy Ink</span>
+        </div>
+        <div class="swatch-details">
+          <div class="swatch-name">Flight Deck Navy</div>
+          <div class="swatch-hex">#0D1B2A · rgb(13, 27, 42)</div>
+          <div class="swatch-desc">Display typography, ATC pill badges, airport codes, runway rules.</div>
+        </div>
+      </div>
+
+      <div class="swatch-item">
+        <div class="swatch-color" style="background: #0E1A2D;">
+          <span class="swatch-tag">Chassis Navy</span>
+        </div>
+        <div class="swatch-details">
+          <div class="swatch-name">Terminal Board Navy</div>
+          <div class="swatch-hex">#0E1A2D · rgb(14, 26, 45)</div>
+          <div class="swatch-desc">Solari departure board body, mechanical inset container.</div>
+        </div>
+      </div>
+
+      <div class="swatch-item">
+        <div class="swatch-color" style="background: linear-gradient(180deg, #F9E2CF 0%, #EE9C64 100%);">
+          <span class="swatch-tag">Warm Mesh</span>
+        </div>
+        <div class="swatch-details">
+          <div class="swatch-name">Takeoff Sunset Mesh</div>
+          <div class="swatch-hex">#F9E2CF ➔ #EE9C64</div>
+          <div class="swatch-desc">Slides 03, 04, 05, 06 background gradient canvas.</div>
+        </div>
+      </div>
+
+      <div class="swatch-item">
+        <div class="swatch-color" style="background: linear-gradient(180deg, #E5E9F0 0%, #CCD4E0 100%);">
+          <span class="swatch-tag">Cool Mesh</span>
+        </div>
+        <div class="swatch-details">
+          <div class="swatch-name">Turbulence Fog Grey</div>
+          <div class="swatch-hex">#E5E9F0 ➔ #CCD4E0</div>
+          <div class="swatch-desc">Slide 01 Problem Hook background canvas.</div>
+        </div>
+      </div>
+
+      <div class="swatch-item">
+        <div class="swatch-color" style="background: #E11D48;">
+          <span class="swatch-tag">Problem Alert</span>
+        </div>
+        <div class="swatch-details">
+          <div class="swatch-name">WX Alert Crimson</div>
+          <div class="swatch-hex">#E11D48 · rgb(225, 29, 72)</div>
+          <div class="swatch-desc">Slide 01 "manual." text, 39 UNREAD bubble, turbulence EKG line.</div>
+        </div>
+      </div>
+
+      <div class="swatch-item">
+        <div class="swatch-color" style="background: #FFFDF9; border: 1px solid #CCC;">
+          <span class="swatch-tag" style="background: #333;">Ticket Paper</span>
+        </div>
+        <div class="swatch-details">
+          <div class="swatch-name">Warm Paper Cream</div>
+          <div class="swatch-hex">#FFFDF9 · rgb(255, 253, 249)</div>
+          <div class="swatch-desc">Boarding pass card, metric tiles, macOS inbox paper.</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top: 24px;">
+      <pre class="code-spec"><span class="c-cmt">/* CSS Variables Ready to Drop In */</span>
+<span class="c-prop">--fp-orange</span>: <span class="c-val">#FF5722</span>;
+<span class="c-prop">--fp-terracotta</span>: <span class="c-val">#D85A30</span>;
+<span class="c-prop">--fp-navy-dark</span>: <span class="c-val">#0D1B2A</span>;
+<span class="c-prop">--fp-navy-board</span>: <span class="c-val">#0E1A2D</span>;
+<span class="c-prop">--fp-alert-crimson</span>: <span class="c-val">#E11D48</span>;
+<span class="c-prop">--fp-paper-cream</span>: <span class="c-val">#FFFDF9</span>;
+<span class="c-prop">--fp-bg-warm</span>: <span class="c-val">linear-gradient(180deg, #F9E2CF 0%, #F5BE94 45%, #EE9C64 100%)</span>;
+<span class="c-prop">--fp-bg-cool</span>: <span class="c-val">linear-gradient(180deg, #E5E9F0 0%, #CCD4E0 100%)</span>;</pre>
+    </div>
+  </section>
+
+  <!-- =============================================================
+       SECTION 2: TYPOGRAPHY
+       ============================================================= -->
+  <section class="section-card">
+    <div class="section-header">
+      <div class="section-title">
+        <span class="section-badge">02</span>
+        Typography Hierarchy & Pairing Formula
+      </div>
+    </div>
+    <p class="section-intro">
+      Dual-headline pairing: Ultra-heavy display serif + slanted editorial italic script, supported by ATC monospace badges.
+    </p>
+
+    <!-- Warm Solution Pairing -->
+    <div class="type-card">
+      <div style="font-family: var(--font-mono-aviation); font-size: 11px; color: var(--fp-orange-light); margin-bottom: 12px;">
+        SOLUTION & BENEFIT HEADLINE PAIRING (SLIDES 04, 05, 06)
+      </div>
+      <div class="type-canvas">
+        <div class="h-line-main">
+          Your team's work,
+          <span class="h-line-italic">on autopilot.</span>
+        </div>
+        <div class="h-subtext">
+          Emails. Reports. Status updates. Every. Single. Day.
+        </div>
+      </div>
+
+      <pre class="code-spec"><span class="c-cmt">/* Headline Formula */</span>
+<span class="c-prop">.headline-line-1</span> {
+  <span class="c-prop">font-family</span>: <span class="c-val">'Fraunces', 'Clash Display', Georgia, serif</span>;
+  <span class="c-prop">font-size</span>: <span class="c-val">58px</span>; <span class="c-cmt">/* On 1080px canvas */</span>
+  <span class="c-prop">font-weight</span>: <span class="c-val">900</span>;
+  <span class="c-prop">line-height</span>: <span class="c-val">1.05</span>;
+  <span class="c-prop">letter-spacing</span>: <span class="c-val">-0.03em</span>;
+  <span class="c-prop">color</span>: <span class="c-val">#0D1B2A</span>;
+}
+<span class="c-prop">.headline-line-2-italic</span> {
+  <span class="c-prop">font-family</span>: <span class="c-val">'Instrument Serif', 'Newsreader', serif</span>;
+  <span class="c-prop">font-size</span>: <span class="c-val">68px</span>; <span class="c-cmt">/* ~1.15x larger */</span>
+  <span class="c-prop">font-weight</span>: <span class="c-val">400</span>;
+  <span class="c-prop">font-style</span>: <span class="c-val">italic</span>;
+  <span class="c-prop">line-height</span>: <span class="c-val">0.95</span>;
+  <span class="c-prop">color</span>: <span class="c-val">#D85A30</span>; <span class="c-cmt">/* Terracotta Accent */</span>
+}</pre>
+    </div>
+
+    <!-- Cool Problem Hook Pairing -->
+    <div class="type-card">
+      <div style="font-family: var(--font-mono-aviation); font-size: 11px; color: var(--fp-alert-pink); margin-bottom: 12px;">
+        PROBLEM HOOK HEADLINE PAIRING (SLIDE 01)
+      </div>
+      <div class="type-canvas cool">
+        <div class="h-line-main">
+          Your team is
+          <span class="h-line-italic h-line-crimson">flying manual.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Type Roles Matrix -->
+    <div class="grid-3">
+      <div class="swatch-item" style="padding: 20px;">
+        <div style="font-family: var(--font-mono-aviation); font-size: 10px; color: #8C99A8; margin-bottom: 6px;">ATC METADATA PILLS</div>
+        <div style="font-family: var(--font-mono-aviation); font-size: 13px; color: #FFF; font-weight: 700; letter-spacing: 0.16em;">
+          ▲ ON TIME 05 — RESULTS
+        </div>
+        <p style="font-size: 12px; color: #94A3B8; margin-top: 8px;">
+          Space Mono 700 · Uppercase · Tracking +0.16em
+        </p>
+      </div>
+
+      <div class="swatch-item" style="padding: 20px;">
+        <div style="font-family: var(--font-mono-aviation); font-size: 10px; color: #8C99A8; margin-bottom: 6px;">INTERFACE TEXT</div>
+        <div style="font-family: var(--font-sans-ui); font-size: 13.5px; color: #FFF; font-weight: 600;">
+          Drafts reply + pulls CRM data
+        </div>
+        <p style="font-size: 12px; color: #94A3B8; margin-top: 8px;">
+          Plus Jakarta Sans 600 · Line-height 1.4
+        </p>
+      </div>
+
+      <div class="swatch-item" style="padding: 20px;">
+        <div style="font-family: var(--font-mono-aviation); font-size: 10px; color: #8C99A8; margin-bottom: 6px;">SPLIT-FLAP MATRIX</div>
+        <div style="font-family: var(--font-mono-aviation); font-size: 13px; color: #FFA726; font-weight: 700; letter-spacing: 0.25em;">
+          10:05 INVOICE RUN DONE
+        </div>
+        <p style="font-size: 12px; color: #94A3B8; margin-top: 8px;">
+          Space Mono 700 · Center seam divider overlay
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================================
+       SECTION 3: UI COMPONENTS
+       ============================================================= -->
+  <section class="section-card">
+    <div class="section-header">
+      <div class="section-title">
+        <span class="section-badge">03</span>
+        UI Components & Graphic Blueprints
+      </div>
+    </div>
+    <p class="section-intro">
+      Signature metaphorical UI components with exact CSS rules and DOM hierarchies.
+    </p>
+
+    <!-- Component 1: Boarding Pass -->
+    <div class="type-card">
+      <h3 style="color: #FFF; font-size: 18px; margin-bottom: 6px;">1. The Aviation Boarding Pass Card (Slide 06)</h3>
+      <p style="color: #94A3B8; font-size: 13px; margin-bottom: 20px;">
+        Features ticket notches, dashed perforation cut, 4-column flight grid, airport flight route, and scannable vertical barcode.
+      </p>
+
+      <div class="preview-stage">
+        <div class="card-boarding-pass">
+          <div class="bp-body">
+            <div class="bp-header">
+              <div class="bp-logo">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="#FF5722"><path d="M12 2L2 22l10-4 10 4L12 2z"/></svg>
+                FLOWPILOT
+              </div>
+              <span class="bp-title-tag">BOARDING PASS</span>
+            </div>
+
+            <div class="bp-route">
+              <div>
+                <div class="bp-code">BSY</div>
+                <div class="bp-sublabel">BUSYWORK</div>
+              </div>
+              <div class="bp-flightline">
+                <svg width="70" height="20" viewBox="0 0 70 20" fill="none">
+                  <path d="M5 15 C 25 2, 45 2, 65 15" stroke="#0D1B2A" stroke-width="1.5" stroke-dasharray="3 3"/>
+                  <polygon points="65,15 57,12 60,18" fill="#0D1B2A"/>
+                </svg>
+              </div>
+              <div style="text-align: right;">
+                <div class="bp-code">WRK</div>
+                <div class="bp-sublabel">REAL WORK</div>
+              </div>
+            </div>
+
+            <div class="bp-grid">
+              <div class="bp-cell"><div class="key">PASSENGER</div><div class="val">Your team</div></div>
+              <div class="bp-cell"><div class="key">FLIGHT</div><div class="val">FP 001</div></div>
+              <div class="bp-cell"><div class="key">CLASS</div><div class="val">Free</div></div>
+              <div class="bp-cell"><div class="key">GATE</div><div class="val">Link in bio</div></div>
+              <div class="bp-cell"><div class="key">DEPARTS</div><div class="val">Today</div></div>
+              <div class="bp-cell"><div class="key">BOARDING</div><div class="val">Now</div></div>
+              <div class="bp-cell"><div class="key">BAGGAGE</div><div class="val">No busywork</div></div>
+              <div class="bp-cell"><div class="key">SEAT</div><div class="val">Any</div></div>
+            </div>
+          </div>
+
+          <div class="bp-stub">
+            <span class="bp-title-tag">ADMIT · WHOLE TEAM</span>
+            <div class="bp-stub-cta">START<br>FREE</div>
+            <div style="font-family: var(--font-mono-aviation); font-size: 8px; color: #8C99A8;">FP 001 · GATE: BIO</div>
+            <div>
+              <div class="bp-barcode"></div>
+              <div style="font-family: var(--font-mono-aviation); font-size: 8px; color: var(--fp-terracotta); font-weight: 700; margin-top: 6px;">
+                LINK IN BIO ↗
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <pre class="code-spec"><span class="c-cmt">/* Boarding Pass Ticket CSS */</span>
+<span class="c-prop">.boarding-pass</span> {
+  <span class="c-prop">background</span>: <span class="c-val">#FFFDF9</span>;
+  <span class="c-prop">border-radius</span>: <span class="c-val">26px</span>;
+  <span class="c-prop">border</span>: <span class="c-val">1px solid rgba(13, 27, 42, 0.08)</span>;
+  <span class="c-prop">box-shadow</span>: <span class="c-val">0 24px 52px -8px rgba(13, 27, 42, 0.18)</span>;
+  <span class="c-prop">display</span>: <span class="c-val">grid</span>;
+  <span class="c-prop">grid-template-columns</span>: <span class="c-val">1fr 140px</span>;
+}
+<span class="c-prop">.ticket-stub</span> {
+  <span class="c-prop">border-left</span>: <span class="c-val">2px dashed #E2DACD</span>;
+  <span class="c-prop">position</span>: <span class="c-val">relative</span>;
+}
+<span class="c-prop">.ticket-stub::before, .ticket-stub::after</span> {
+  <span class="c-prop">content</span>: <span class="c-val">''</span>;
+  <span class="c-prop">position</span>: <span class="c-val">absolute</span>;
+  <span class="c-prop">width</span>: <span class="c-val">24px</span>;
+  <span class="c-prop">height</span>: <span class="c-val">24px</span>;
+  <span class="c-prop">background</span>: <span class="c-val">#F3AF7C</span>; <span class="c-cmt">/* Matches background canvas */</span>
+  <span class="c-prop">border-radius</span>: <span class="c-val">50%</span>;
+  <span class="c-prop">left</span>: <span class="c-val">-12px</span>;
+}
+<span class="c-prop">.ticket-stub::before</span> { <span class="c-prop">top</span>: <span class="c-val">-12px</span>; }
+<span class="c-prop">.ticket-stub::after</span> { <span class="c-prop">bottom</span>: <span class="c-val">-12px</span>; }</pre>
+    </div>
+
+    <!-- Component 2: Solari Departure Board -->
+    <div class="type-card">
+      <h3 style="color: #FFF; font-size: 18px; margin-bottom: 6px;">2. Solari Split-Flap Departure Board (Slide 05)</h3>
+      <p style="color: #94A3B8; font-size: 13px; margin-bottom: 20px;">
+        Simulates mechanical airport arrival/departure screens with flip lines and inset chassis.
+      </p>
+
+      <div class="preview-stage">
+        <div class="card-solari">
+          <div class="solari-top">
+            <span>✈ COMPLETED BY FLOWPILOT</span>
+            <span style="color: #4ADE80;">● TODAY · LIVE</span>
+          </div>
+          <div class="solari-line">
+            <div class="flap-box">10:05</div>
+            <div class="flap-box" style="flex: 1;">INVOICE RUN</div>
+            <div class="flap-box flap-done">DONE</div>
+          </div>
+          <div class="solari-line">
+            <div class="flap-box">10:12</div>
+            <div class="flap-box" style="flex: 1;">STANDUP NOTES</div>
+            <div class="flap-box flap-done">DONE</div>
+          </div>
+          <div class="solari-line">
+            <div class="flap-box">10:26</div>
+            <div class="flap-box" style="flex: 1;">LEAD ROUTING</div>
+            <div class="flap-box flap-done">DONE</div>
+          </div>
+          <div class="solari-line">
+            <div class="flap-box">10:40</div>
+            <div class="flap-box" style="flex: 1;">TIMESHEETS</div>
+            <div class="flap-box flap-done">DONE</div>
+          </div>
+        </div>
+      </div>
+
+      <pre class="code-spec"><span class="c-cmt">/* Solari Departure Board CSS */</span>
+<span class="c-prop">.solari-chassis</span> {
+  <span class="c-prop">background</span>: <span class="c-val">#0E1A2D</span>;
+  <span class="c-prop">border-radius</span>: <span class="c-val">22px</span>;
+  <span class="c-prop">padding</span>: <span class="c-val">22px</span>;
+  <span class="c-prop">box-shadow</span>: <span class="c-val">inset 0 2px 6px rgba(0,0,0,0.6), 0 16px 36px rgba(13,27,42,0.25)</span>;
+}
+<span class="c-prop">.flap-tile</span> {
+  <span class="c-prop">background</span>: <span class="c-val">#152438</span>;
+  <span class="c-prop">color</span>: <span class="c-val">#FFFFFF</span>;
+  <span class="c-prop">font-family</span>: <span class="c-val">'Space Mono', monospace</span>;
+  <span class="c-prop">letter-spacing</span>: <span class="c-val">0.22em</span>;
+  <span class="c-prop">position</span>: <span class="c-val">relative</span>;
+}
+<span class="c-prop">.flap-tile::after</span> {
+  <span class="c-prop">content</span>: <span class="c-val">''</span>;
+  <span class="c-prop">position</span>: <span class="c-val">absolute</span>;
+  <span class="c-prop">top</span>: <span class="c-val">50%</span>; <span class="c-prop">left</span>: <span class="c-val">0</span>; <span class="c-prop">right</span>: <span class="c-val">0</span>;
+  <span class="c-prop">height</span>: <span class="c-val">1px</span>;
+  <span class="c-prop">background</span>: <span class="c-val">rgba(0, 0, 0, 0.7)</span>;
+}</pre>
+    </div>
+
+    <!-- Component 3: Pill Buttons & Badges -->
+    <div class="type-card">
+      <h3 style="color: #FFF; font-size: 18px; margin-bottom: 6px;">3. Tactical Buttons & ATC Eyebrow Pills</h3>
+      <p style="color: #94A3B8; font-size: 13px; margin-bottom: 20px;">
+        Floating navy pill buttons with right arrow action disc, and slide header pills.
+      </p>
+
+      <div class="preview-stage" style="flex-direction: column; gap: 24px;">
+        <div class="atc-badge">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="#FF5722"><path d="M12 2L2 22l10-4 10 4L12 2z"/></svg>
+          ATC &nbsp;06 — CLEARED FOR TAKEOFF
+        </div>
+
+        <div class="pill-cta">
+          <div>
+            <span class="pill-cta-text-bold">Start free</span>
+            <span class="pill-cta-text-sub">· link in bio</span>
+          </div>
+          <div class="pill-arrow-disc">➔</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================================
+       SECTION 4: LAYOUT & SPACING
+       ============================================================= -->
+  <section class="section-card">
+    <div class="section-header">
+      <div class="section-title">
+        <span class="section-badge">04</span>
+        Canvas Layout & Spatial Geometry (1080 × 1350)
+      </div>
+    </div>
+    <p class="section-intro">
+      Exact coordinate stack for the 4:5 vertical carousel canvas.
+    </p>
+
+    <div class="grid-2">
+      <div style="background: #0B0E14; border: 2px dashed rgba(255, 87, 34, 0.35); border-radius: var(--radius-lg); padding: 24px;">
+        <div style="font-family: var(--font-mono-aviation); font-size: 12px; color: var(--fp-orange-light); margin-bottom: 16px;">
+          CANVAS SPEC: 1080px (W) × 1350px (H) · 4:5 RATIO
+        </div>
+
+        <div style="border: 1px solid rgba(255,255,255,0.1); padding: 12px 16px; border-radius: 6px; margin-bottom: 12px; display: flex; justify-content: space-between; font-family: var(--font-mono-aviation); font-size: 11px;">
+          <span>01. BRAND LOGO + SLIDE INDEX PILL</span>
+          <span>Y: 56px | H: 36px</span>
+        </div>
+
+        <div style="border: 1px solid rgba(255,87,34,0.4); background: rgba(255,87,34,0.06); padding: 12px 16px; border-radius: 6px; margin-bottom: 12px; display: flex; justify-content: space-between; font-family: var(--font-mono-aviation); font-size: 11px; color: #FFB399;">
+          <span>02. ATC EYEBROW BADGE</span>
+          <span>Y: 120px | H: 32px</span>
+        </div>
+
+        <div style="border: 1px solid rgba(255,87,34,0.4); background: rgba(255,87,34,0.06); padding: 12px 16px; border-radius: 6px; margin-bottom: 12px; display: flex; justify-content: space-between; font-family: var(--font-mono-aviation); font-size: 11px; color: #FFB399;">
+          <span>03. DUAL-LINE HERO HEADLINE</span>
+          <span>Y: 176px | H: 160px</span>
+        </div>
+
+        <div style="border: 1px solid rgba(255,87,34,0.4); background: rgba(255,87,34,0.06); padding: 24px 16px; border-radius: 6px; margin-bottom: 12px; display: flex; justify-content: space-between; font-family: var(--font-mono-aviation); font-size: 11px; color: #FFB399;">
+          <span>04. MAIN HERO COMPONENT ZONE (Boarding Pass, Board, Radar, Mockup)</span>
+          <span>Y: 370px | H: ~720px</span>
+        </div>
+
+        <div style="border: 1px solid rgba(255,255,255,0.1); padding: 12px 16px; border-radius: 6px; display: flex; justify-content: space-between; font-family: var(--font-mono-aviation); font-size: 11px;">
+          <span>05. RUNWAY FLIGHT PROGRESS FOOTER</span>
+          <span>Y: 1220px | H: 60px</span>
+        </div>
+      </div>
+
+      <div class="swatch-item" style="padding: 24px;">
+        <h4 style="color: #FFF; font-size: 16px; margin-bottom: 14px;">Spatial Layout Rules</h4>
+        <ul style="color: #94A3B8; font-size: 13.5px; padding-left: 18px; line-height: 1.8;">
+          <li><strong>Outer Padding:</strong> <code>padding: 56px 64px;</code> Ensures safe zone on all devices.</li>
+          <li><strong>Headline to Card Gap:</strong> Fixed <code>36px - 44px</code> spacing between bottom of subtitle and top of primary card.</li>
+          <li><strong>Z-Index Layering:</strong>
+            <br>• Layer 0: Mesh Canvas Gradient
+            <br>• Layer 1: Topographic SVG contour lines (opacity 0.12)
+            <br>• Layer 2: Cloud silhouettes (top-left & bottom-right)
+            <br>• Layer 3: Paper UI cards & widgets
+            <br>• Layer 4: Floating cursor pointers & unread notification badges
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================================
+       SECTION 5: CHARTS & DATA VIZ
+       ============================================================= -->
+  <section class="section-card">
+    <div class="section-header">
+      <div class="section-title">
+        <span class="section-badge">05</span>
+        Telemetry, Charts & Progress Data Viz
+      </div>
+    </div>
+    <p class="section-intro">
+      Styling specifications for telemetry widgets, upward curves, and airport runway scrubbers.
+    </p>
+
+    <div class="grid-2">
+      <!-- Mini Bar Chart -->
+      <div class="card-metric">
+        <div class="metric-header">
+          <span>Hours saved · per person / week</span>
+          <span style="background: #FFEAD9; color: var(--fp-terracotta); font-family: var(--font-mono-aviation); font-size: 10px; padding: 2px 8px; border-radius: var(--radius-pill);">
+            ▲ 3.1 hrs vs last month
+          </span>
+        </div>
+        <div class="metric-big-num">12.4<span style="font-size: 20px;">hrs</span></div>
+        <div class="bars-container">
+          <div class="bar-col" style="height: 20%;"></div>
+          <div class="bar-col" style="height: 35%;"></div>
+          <div class="bar-col" style="height: 45%;"></div>
+          <div class="bar-col" style="height: 60%;"></div>
+          <div class="bar-col" style="height: 70%;"></div>
+          <div class="bar-col" style="height: 80%;"></div>
+          <div class="bar-col active" style="height: 100%;"></div>
+        </div>
+      </div>
+
+      <!-- Upward Curve -->
+      <div class="card-metric">
+        <div class="metric-header">
+          <span>Focus time / day</span>
+          <span style="color: var(--fp-orange); font-family: var(--font-mono-aviation); font-size: 11px; font-weight: 700;">
+            ↑ 2.4×
+          </span>
+        </div>
+        <svg class="curve-chart" viewBox="0 0 200 60" fill="none">
+          <defs>
+            <linearGradient id="curveG" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#FF5722" stop-opacity="0.3"/>
+              <stop offset="100%" stop-color="#FF5722" stop-opacity="0.0"/>
+            </linearGradient>
+          </defs>
+          <path d="M 10 50 C 70 50, 110 30, 180 12 L 180 55 L 10 55 Z" fill="url(#curveG)" />
+          <path d="M 10 50 C 70 50, 110 30, 180 12" stroke="#FF5722" stroke-width="3" stroke-linecap="round"/>
+          <polygon points="180,12 172,10 176,17" fill="#0D1B2A"/>
+        </svg>
+        <div style="display: flex; justify-content: space-between; font-family: var(--font-mono-aviation); font-size: 9px; color: var(--fp-slate-light); margin-top: 4px;">
+          <span>BEFORE</span>
+          <span>WITH FLOWPILOT</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Metric Stat Ribbon -->
+    <div style="margin-top: 24px;" class="card-metric">
+      <div class="stat-ribbon">
+        <div>
+          <div class="stat-val">1,248</div>
+          <div class="stat-lbl">tasks automated</div>
+        </div>
+        <div>
+          <div class="stat-val">0</div>
+          <div class="stat-lbl">dropped balls</div>
+        </div>
+        <div>
+          <div class="stat-val">-73%</div>
+          <div class="stat-lbl">fewer status meetings</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Runway Footer -->
+    <div style="margin-top: 24px;" class="runway-wrapper">
+      <div class="runway-meta">
+        <span>FP 001 · CLEARED · RWY 06</span>
+        <span style="font-weight: 700;">SWIPE ➔</span>
+      </div>
+      <div class="runway-axis">
+        <div class="runway-jet" style="left: 83%;"></div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+</body>
+</html>
